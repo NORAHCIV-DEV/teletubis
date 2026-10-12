@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Alerta Temprana de Deslizamientos</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="background">
+        <div class="blob blob1"></div>
+        <div class="blob blob2"></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>🚨 Alerta de Deslizamientos</h1>
+            <p>Sistema predictivo impulsado por IA para Bolivia</p>
+        </header>
+
+        <main class="dashboard">
+            <!-- Formulario -->
+            <section class="glass-card form-section">
+                <h2>📊 Parámetros de Evaluación</h2>
+                <form id="predict-form">
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label>Precipitación 24h (mm)</label>
+                            <input type="number" id="prec_24" required step="any" value="15">
+                        </div>
+                        <div class="input-group">
+                            <label>Precipitación 3d (mm)</label>
+                            <input type="number" id="prec_3d" required step="any" value="45">
+                        </div>
+                        <div class="input-group">
+                            <label>Precipitación 7d (mm)</label>
+                            <input type="number" id="prec_7d" required step="any" value="120">
+                        </div>
+                        <div class="input-group">
+                            <label>Pendiente (Grados)</label>
+                            <input type="number" id="pendiente" required step="any" value="30">
+                        </div>
+                        <div class="input-group">
+                            <label>Elevación (Metros)</label>
+                            <input type="number" id="elevacion" required step="any" value="2500">
+                        </div>
+                        <div class="input-group">
+                            <label>Humedad Suelo (%)</label>
+                            <input type="number" id="humedad" required step="any" value="60">
+                        </div>
+                        
+                        <div class="input-group">
+                            <label>Departamento</label>
+                            <select id="departamento">
+                                <option>La Paz</option>
+                                <option>Cochabamba</option>
+                                <option>Chuquisaca</option>
+                                <option>Tarija</option>
+                                <option>Oruro</option>
+                                <option>Potosi</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Tipo de Suelo</label>
+                            <select id="tipo_suelo">
+                                <option>Franco</option>
+                                <option>Arcilloso</option>
+                                <option>Arenoso</option>
+                                <option>Limoso</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Geología</label>
+                            <select id="geologia">
+                                <option>Sedimentaria</option>
+                                <option>Metamórfica</option>
+                                <option>Ígnea</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-predict">Calcular Índice de Riesgo</button>
+                </form>
+            </section>
+
+            <!-- Resultados -->
+            <section class="glass-card result-section" id="result-section">
+                <h2>📈 Resultado de la Evaluación</h2>
+                
+                <div class="gauge-container">
+                    <svg class="gauge" viewBox="0 0 100 50">
+                        <path class="gauge-bg" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#2a2a35" stroke-width="12" />
+                        <path class="gauge-fill" id="gauge-fill" d="M 10 50 A 40 40 0 0 1 90 50" fill="none" stroke="#4CAF50" stroke-width="12" stroke-dasharray="125.6" stroke-dashoffset="125.6" />
+                    </svg>
+                    <div class="gauge-value">
+                        <span id="risk-score">--</span><span class="pct">%</span>
+                    </div>
+                </div>
+
+                <div class="alert-box" id="alert-box">
+                    <h3 id="alert-level">Esperando datos...</h3>
+                    <p id="alert-action">Ingresa los parámetros climáticos y geológicos para evaluar la probabilidad de un deslizamiento.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
