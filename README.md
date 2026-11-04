@@ -14,7 +14,7 @@ El usuario ingresa datos como lluvia acumulada, pendiente del terreno, tipo de s
 
 - **Frontend:** React + Vite
 - **Backend:** FastAPI (Python)
-- **ML:** Random Forest con scikit-learn
+- **ML:** Random Forest + segmentación K-Means con scikit-learn
 - **Metodología:** CRISP-DM
 
 ## Cómo ejecutar
@@ -23,7 +23,9 @@ El usuario ingresa datos como lluvia acumulada, pendiente del terreno, tipo de s
 ```bash
 cd caso8
 pip install -r requirements.txt
-python train_model.py      # genera los archivos .joblib
+python Dataset_10000_Bolivia_Sintetico.py
+python train_model.py      # genera el clasificador y sus artefactos
+python train_kmeans.py     # genera la segmentación geoclimática
 uvicorn app:app --port 8000
 ```
 
@@ -41,6 +43,9 @@ El frontend corre en `http://localhost:5173` y el backend en `http://localhost:8
 caso8/
 ├── app.py                    # API FastAPI
 ├── train_model.py            # Entrenamiento del modelo
+├── train_kmeans.py           # Entrenamiento de segmentos K-Means
+├── kmeans_service.py         # Pipeline y clasificación de segmentos
+├── docs/KMEANS_INTEGRACION.md
 ├── Dataset_10000_Bolivia_Sintetico.py   # Generador del dataset
 ├── Alerta_Deslizamientos_CRISP_DM.ipynb # Notebook con el análisis
 ├── requirements.txt
@@ -50,7 +55,8 @@ caso8/
 │   │   └── components/
 │   │       ├── MapaZonas.jsx
 │   │       ├── Historial.jsx
-│   │       └── Configuracion.jsx
+│   │       ├── Configuracion.jsx
+│   │       └── Segmentacion.jsx
 │   └── package.json
 └── .gitignore
 ```
@@ -58,3 +64,4 @@ caso8/
 ## Notas
 - Los archivos `.joblib` (modelo entrenado) no se suben a git porque pesan mucho. Hay que generarlos corriendo `train_model.py`.
 - El dataset `.csv` tampoco se sube por el mismo motivo. Se genera con `Dataset_10000_Bolivia_Sintetico.py`.
+- Los artefactos de K-Means se generan dentro de `artifacts/` y tampoco se versionan.
