@@ -3,12 +3,13 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 import {
-  LayoutDashboard, Activity, History, Settings, LogOut, Map as MapIcon
+  LayoutDashboard, Activity, History, Settings, LogOut, Map as MapIcon, BrainCircuit
 } from 'lucide-react';
 import './App.css';
 import MapaZonas from './components/MapaZonas';
 import Historial from './components/Historial';
 import Configuracion from './components/Configuracion';
+import Segmentacion from './components/Segmentacion';
 
 const API_URL = 'http://localhost:8000/predecir';
 
@@ -109,6 +110,7 @@ function App() {
     { id: 'dashboard', label: 'Dashboard',      icon: LayoutDashboard },
     { id: 'mapa',      label: 'Mapa de Zonas',  icon: MapIcon },
     { id: 'historial', label: 'Historial',       icon: History, badge: historialCompleto.length || null },
+    { id: 'segmentacion', label: 'IA / K-Means', icon: BrainCircuit },
     { id: 'config',    label: 'Configuración',   icon: Settings },
   ];
 
@@ -237,6 +239,10 @@ function App() {
                       {result.acciones.map((a) => (
                         <p key={a} className="action-text">{a}</p>
                       ))}
+                      {result.segmentacion && <div className="segment-result">
+                        <strong>{result.segmentacion.segmento}</strong>
+                        <small>Cluster {result.segmentacion.cluster}: {result.segmentacion.descripcion}</small>
+                      </div>}
                     </div>
                   ) : (
                     <div className="alert-box empty-state">
@@ -289,6 +295,8 @@ function App() {
         {moduloActivo === 'historial' && (
           <Historial historial={historialCompleto} onLimpiar={limpiarHistorial} />
         )}
+
+        {moduloActivo === 'segmentacion' && <Segmentacion />}
 
         {/* ── CONFIGURACIÓN ── */}
         {moduloActivo === 'config' && (

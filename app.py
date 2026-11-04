@@ -9,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.model_selection import train_test_split
+from kmeans_service import Segmenter
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -31,6 +32,10 @@ except Exception as e:
         f"No se pudieron cargar los modelos ({e}). Ejecuta train_model.py primero."
     ) from e
 
+try:
+    segmenter = Segmenter(BASE_DIR / "artifacts")
+except Exception:
+    segmenter = None
 
 
 def _norm(texto: str) -> str:
@@ -110,7 +115,18 @@ def predecir_riesgo(datos: DatosIngreso):
 
     X = pd.DataFrame([fila])[list(columnas)]
     probabilidad = float(modelo.predict_proba(scaler.transform(X))[0][1])
-    return clasificar(round(probabilidad * 100, 2))
+    resultado = clasificar(round(probabilidad * 100, 2))
+    resultado["segmentacion"] = segmenter.predict({
+        nombre: getattr(datos, nombre) for nombre in segmenter.metadata["features"]
+    }) if segmenter is not None else None
+    return resultado
+
+
+@app.get("/segmentacion")
+def info_segmentacion():
+    if segmenter is None:
+        raise HTTPException(status_code=503, detail="Modelo K-Means no disponible. Ejecuta train_kmeans.py")
+    return segmenter.metadata
 
 
 VARS_CAT = ["departamento", "tipo_suelo", "geologia"]
