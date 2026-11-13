@@ -8,7 +8,9 @@ Proyecto de la materia **Ingeniería de Software 2** en UNIFRANZ. Es un sistema 
 
 ## Qué hace el sistema
 
-El usuario ingresa datos como lluvia acumulada, pendiente del terreno, tipo de suelo, etc. El sistema procesa eso con un modelo de Machine Learning (Random Forest) y devuelve un nivel de riesgo: Bajo, Moderado, Alto o Muy Alto.
+El usuario ingresa datos como lluvia acumulada, pendiente del terreno, tipo de suelo, etc. El sistema procesa eso con un modelo de Machine Learning (Random Forest) y devuelve un nivel de riesgo: Bajo, Moderado, Alto o Muy Alto. En la misma evaluación, K-Means asigna un perfil geoclimático y permite comparar el registro con observaciones de características similares.
+
+La interfaz muestra el cluster asignado en el resultado principal, conserva el segmento en el historial y ofrece una vista de análisis con la distribución de observaciones, los perfiles aprendidos y la comparación Silhouette/WCSS utilizada para justificar el número de clusters.
 
 ## Tecnologías
 
@@ -48,6 +50,7 @@ caso8/
 ├── docs/KMEANS_INTEGRACION.md
 ├── Dataset_10000_Bolivia_Sintetico.py   # Generador del dataset
 ├── Alerta_Deslizamientos_CRISP_DM.ipynb # Notebook con el análisis
+├── Entrega_KMeans_GeoRisk_AI.ipynb       # Entrega ejecutada de clusterización K-Means
 ├── requirements.txt
 ├── frontend/
 │   ├── src/
@@ -65,3 +68,5 @@ caso8/
 - Los archivos `.joblib` (modelo entrenado) no se suben a git porque pesan mucho. Hay que generarlos corriendo `train_model.py`.
 - El dataset `.csv` tampoco se sube por el mismo motivo. Se genera con `Dataset_10000_Bolivia_Sintetico.py`.
 - Los artefactos de K-Means se generan dentro de `artifacts/` y tampoco se versionan.
+- El historial del frontend incluye el cluster y el nombre del segmento y puede exportarse a CSV.
+- `Entrega_KMeans_GeoRisk_AI.ipynb` contiene la preparación, selección de `k`, visualizaciones, interpretación y conclusión de la entrega académica.

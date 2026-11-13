@@ -13,10 +13,12 @@ const BADGE = {
 
 function exportarCSV(historial) {
   const cabecera = ['#', 'Fecha', 'Hora', 'Departamento', 'Pendiente (°)',
-                    'Lluvia 24h (mm)', 'Humedad (%)', 'Nivel de Riesgo', 'Porcentaje (%)'];
+                    'Lluvia 24h (mm)', 'Humedad (%)', 'Nivel de Riesgo', 'Porcentaje (%)',
+                    'Cluster K-Means', 'Segmento geoclimático'];
   const filas = historial.map((r, i) => [
     i + 1, r.fecha, r.hora, r.departamento,
-    r.pendiente, r.lluvia24h, r.humedad, r.nivel_riesgo, r.porcentaje
+    r.pendiente, r.lluvia24h, r.humedad, r.nivel_riesgo, r.porcentaje,
+    r.cluster ?? 'N/D', `"${r.segmento || 'No disponible'}"`
   ]);
   const csv = [cabecera, ...filas].map(f => f.join(',')).join('\n');
   const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
@@ -28,7 +30,7 @@ function exportarCSV(historial) {
   URL.revokeObjectURL(url);
 }
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
@@ -165,7 +167,7 @@ export default function Historial({ historial, onLimpiar }) {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                  {['#', 'Fecha', 'Hora', 'Departamento', 'Pendiente', 'Lluvia 24h', 'Humedad', 'Nivel de Riesgo', '%'].map(h => (
+                  {['#', 'Fecha', 'Hora', 'Departamento', 'Pendiente', 'Lluvia 24h', 'Humedad', 'Nivel de Riesgo', '%', 'K-Means'].map(h => (
                     <th key={h} style={{ padding: '0.75rem', textAlign: 'left', color: '#64748b', fontWeight: 600, whiteSpace: 'nowrap' }}>{h}</th>
                   ))}
                 </tr>
@@ -192,6 +194,14 @@ export default function Historial({ historial, onLimpiar }) {
                         }}>{r.nivel_riesgo}</span>
                       </td>
                       <td style={{ padding: '0.85rem 0.75rem', fontWeight: 800, color: badge.color }}>{r.porcentaje}%</td>
+                      <td style={{ padding: '0.85rem 0.75rem', minWidth: '190px' }}>
+                        {r.cluster != null ? (
+                          <div className="history-cluster">
+                            <span>Cluster {r.cluster}</span>
+                            <small>{r.segmento}</small>
+                          </div>
+                        ) : <span style={{ color: '#64748b' }}>No disponible</span>}
+                      </td>
                     </tr>
                   );
                 })}

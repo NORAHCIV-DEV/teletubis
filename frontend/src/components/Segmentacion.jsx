@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { BarChart, Bar, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { BarChart, Bar, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis,
+  LineChart, Line, Legend } from 'recharts';
+import { BrainCircuit, CheckCircle2, Database, Layers3, Target } from 'lucide-react';
 
 const API = 'http://localhost:8000/segmentacion';
 
-export default function Segmentacion() {
+export default function Segmentacion({ segmentoActual }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
 
@@ -15,18 +17,40 @@ export default function Segmentacion() {
     }).catch((err) => setError(err.message));
   }, []);
 
-  if (error) return <div className="glass-card"><p className="error-texto">{error}</p></div>;
-  if (!data) return <div className="glass-card"><p>Cargando modelo K-Means...</p></div>;
+  if (error) return <div className="glass-card kmeans-state"><BrainCircuit size={34} /><p className="error-texto">{error}</p></div>;
+  if (!data) return <div className="glass-card kmeans-state"><BrainCircuit className="kmeans-pulse" size={34} /><p>Cargando modelo K-Means...</p></div>;
 
   return <>
     <header className="top-header"><div><h1>Segmentación K-Means</h1>
-      <p>Perfiles geoclimáticos aprendidos del conjunto de observaciones</p></div></header>
+      <p>Así agrupa la inteligencia artificial las condiciones geoclimáticas del proyecto</p></div></header>
+    {segmentoActual && <section className="current-segment-banner" aria-label="Segmento de la última predicción">
+      <CheckCircle2 size={24} />
+      <div><span>Tu última evaluación pertenece al</span><strong>Cluster {segmentoActual.cluster} · {segmentoActual.segmento}</strong></div>
+    </section>}
     <div className="metric-grid">
-      <div className="glass-card metric"><span>Registros</span><strong>{data.records.toLocaleString('es-BO')}</strong></div>
-      <div className="glass-card metric"><span>Clusters</span><strong>{data.selected_k}</strong></div>
-      <div className="glass-card metric"><span>Silhouette</span><strong>{data.silhouette.toFixed(4)}</strong></div>
-      <div className="glass-card metric"><span>WCSS</span><strong>{data.wcss.toFixed(1)}</strong></div>
+      <div className="glass-card metric"><Database size={19} /><span>Registros analizados</span><strong>{data.records.toLocaleString('es-BO')}</strong></div>
+      <div className="glass-card metric"><Layers3 size={19} /><span>Clusters seleccionados</span><strong>{data.selected_k}</strong></div>
+      <div className="glass-card metric"><Target size={19} /><span>Coeficiente Silhouette</span><strong>{data.silhouette.toFixed(4)}</strong></div>
+      <div className="glass-card metric"><BrainCircuit size={19} /><span>Algoritmo</span><strong className="metric-text">{data.algorithm}</strong></div>
     </div>
+    <div className="kmeans-info-strip">
+      <strong>¿Cómo se eligió k={data.selected_k}?</strong>
+      <span>Se compararon varias cantidades de clusters y se seleccionó la que obtuvo el mayor coeficiente Silhouette, es decir, grupos más compactos y separados.</span>
+    </div>
+    {data.candidates?.length > 0 && <div className="glass-card chart-card">
+      <h2 className="section-title">Justificación del número de clusters</h2>
+      <div style={{ width: '100%', height: 280 }}><ResponsiveContainer>
+        <LineChart data={data.candidates}><CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,.1)" />
+          <XAxis dataKey="k" stroke="#94a3b8" label={{ value: 'Número de clusters (k)', position: 'insideBottom', offset: -4, fill: '#94a3b8' }} />
+          <YAxis yAxisId="left" stroke="#a78bfa" domain={['auto', 'auto']} />
+          <YAxis yAxisId="right" orientation="right" stroke="#60a5fa" domain={['auto', 'auto']} />
+          <Tooltip contentStyle={{ background: '#0f172a', borderColor: '#334155' }} />
+          <Legend verticalAlign="top" height={34} />
+          <Line yAxisId="left" type="monotone" dataKey="silhouette" name="Silhouette" stroke="#a78bfa" strokeWidth={3} dot={{ r: 5 }} />
+          <Line yAxisId="right" type="monotone" dataKey="wcss" name="WCSS" stroke="#60a5fa" strokeWidth={2} dot={{ r: 4 }} />
+        </LineChart>
+      </ResponsiveContainer></div>
+    </div>}
     <div className="glass-card chart-card">
       <h2 className="section-title">Distribución de observaciones</h2>
       <div style={{ width: '100%', height: 300 }}><ResponsiveContainer>
@@ -38,8 +62,9 @@ export default function Segmentacion() {
       </ResponsiveContainer></div>
     </div>
     <div className="segment-grid">{data.segments.map((segment) =>
-      <article className="glass-card" key={segment.cluster}>
+      <article className={`glass-card segment-card ${segmentoActual?.cluster === segment.cluster ? 'segment-card-current' : ''}`} key={segment.cluster}>
         <span className="cluster-tag">Cluster {segment.cluster}</span><h2>{segment.nombre}</h2>
+        {segmentoActual?.cluster === segment.cluster && <span className="current-chip"><CheckCircle2 size={14} /> Tu evaluación actual</span>}
         <p className="muted-small">{segment.descripcion}</p>
         <div className="segment-values"><span>{segment.cantidad} registros</span>
           <span>Índice histórico: {segment.indice_riesgo_deslizamiento?.toFixed(1) ?? 'N/D'}</span>
