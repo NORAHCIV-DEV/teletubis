@@ -21,10 +21,14 @@ def sample(rows=60):
 def test_train_persists_and_predicts(tmp_path):
     dataset = tmp_path / "data.csv"
     sample().to_csv(dataset, index=False)
-    metadata = train(dataset, tmp_path / "artifacts", k_max=4)
-    assert 2 <= metadata["selected_k"] <= 4
+    metadata = train(dataset, tmp_path / "artifacts", k_max=4, target_k=4)
+    assert metadata["selected_k"] == 4
+    assert len(metadata["segments"]) == 4
     assert metadata["silhouette"] > 0
     assert sum(s["cantidad"] for s in metadata["segments"]) == 60
+    assert len({s["nombre"] for s in metadata["segments"]}) == 4
+    assert all(s["diferenciador"] for s in metadata["segments"])
+    assert len(metadata["feature_details"]) == len(FEATURES)
     segment = Segmenter(tmp_path / "artifacts").predict(sample(1).iloc[0][FEATURES].to_dict())
     assert segment["segmento"]
 

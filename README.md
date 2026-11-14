@@ -10,7 +10,9 @@ Proyecto de la materia **Ingeniería de Software 2** en UNIFRANZ. Es un sistema 
 
 El usuario ingresa datos como lluvia acumulada, pendiente del terreno, tipo de suelo, etc. El sistema procesa eso con un modelo de Machine Learning (Random Forest) y devuelve un nivel de riesgo: Bajo, Moderado, Alto o Muy Alto. En la misma evaluación, K-Means asigna un perfil geoclimático y permite comparar el registro con observaciones de características similares.
 
-La interfaz muestra el cluster asignado en el resultado principal, conserva el segmento en el historial y ofrece una vista de análisis con la distribución de observaciones, los perfiles aprendidos y la comparación Silhouette/WCSS utilizada para justificar el número de clusters.
+La interfaz muestra el cluster asignado en el resultado principal, conserva el segmento en el historial y ofrece una vista de análisis con la distribución de observaciones y cuatro perfiles aprendidos. La comparación Silhouette/WCSS se conserva como diagnóstico del modelo y la vista aplica una narrativa H4 basada en Data Storytelling y principios Gestalt.
+
+Los cuatro perfiles tienen nombres basados en su rasgo dominante: **Saturación por lluvia acumulada**, **Lluvia reciente de alta intensidad**, **Valles de menor elevación** y **Altiplano de gran elevación**. El módulo K-Means explica además cómo se generaron las 10.000 observaciones y qué representa cada variable.
 
 ## Tecnologías
 

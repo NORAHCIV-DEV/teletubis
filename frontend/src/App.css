@@ -415,14 +415,36 @@ input[type="range"] { padding: 0; background: transparent; border: none; accent-
 .kmeans-info-strip { display: flex; align-items: flex-start; gap: .75rem; margin: 0 0 1.5rem; padding: .9rem 1rem; border-left: 3px solid #a78bfa; background: rgba(139, 92, 246, .07); }
 .kmeans-info-strip strong { color: #c4b5fd; white-space: nowrap; }
 .kmeans-info-strip span { color: var(--text-muted); font-size: .86rem; line-height: 1.5; }
+.dataset-story { margin-bottom: 1.5rem; }
+.dataset-story-heading { display: flex; align-items: center; gap: .8rem; margin-bottom: .8rem; }
+.dataset-story-heading h2 { font-size: 1.15rem; margin-top: .15rem; }
+.dataset-story-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: .75rem; color: #93c5fd; background: rgba(59, 130, 246, .14); flex-shrink: 0; }
+.dataset-story > p { color: #cbd5e1; line-height: 1.65; }
+.dataset-scope { display: flex; align-items: flex-start; gap: .5rem; margin: .9rem 0 1.2rem; padding: .75rem; border-radius: .65rem; background: rgba(59,130,246,.07); color: var(--text-muted); font-size: .83rem; line-height: 1.5; }
+.dataset-scope svg { color: #60a5fa; flex-shrink: 0; margin-top: .15rem; }
+.variables-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; }
+.variable-card { padding: 1rem; border: 1px solid var(--border-color); border-radius: .8rem; background: rgba(15,23,42,.35); }
+.variable-card-title { display: flex; justify-content: space-between; align-items: flex-start; gap: .5rem; margin-bottom: .55rem; }
+.variable-card-title strong { color: #e2e8f0; font-size: .87rem; }
+.variable-card-title span { color: #93c5fd; font-size: .7rem; font-weight: 700; white-space: nowrap; }
+.variable-card p { color: var(--text-muted); font-size: .78rem; line-height: 1.45; margin-bottom: .65rem; }
+.variable-card small { color: #64748b; font-size: .72rem; line-height: 1.4; }
+.variable-card small b { color: #94a3b8; }
 .metric > svg { color: #60a5fa; margin-bottom: .1rem; }
 .metric .metric-text { font-size: 1.25rem; }
 .segment-card { position: relative; }
+.segment-grid .segment-card:nth-child(1) { border-top: 3px solid #ef4444; }
+.segment-grid .segment-card:nth-child(2) { border-top: 3px solid #f59e0b; }
+.segment-grid .segment-card:nth-child(3) { border-top: 3px solid #22c55e; }
+.segment-grid .segment-card:nth-child(4) { border-top: 3px solid #3b82f6; }
 .segment-card-current { border-color: #a78bfa; box-shadow: 0 0 0 1px rgba(167,139,250,.18), 0 15px 35px -10px rgba(0,0,0,.4); }
+.segment-difference { color: #cbd5e1; font-size: .84rem; line-height: 1.5; padding: .7rem; margin-bottom: .75rem; border-radius: .55rem; background: rgba(255,255,255,.035); }
+.segment-difference strong { color: #f8fafc; }
 .current-chip { display: inline-flex; align-items: center; gap: .3rem; color: #c4b5fd; background: rgba(139,92,246,.13); border-radius: 999px; padding: .3rem .6rem; margin-bottom: .8rem; font-size: .75rem; font-weight: 700; }
 .kmeans-state { display: flex; align-items: center; justify-content: center; gap: .8rem; min-height: 180px; color: var(--text-muted); }
 .kmeans-pulse { color: #a78bfa; animation: kmeans-pulse 1.4s ease-in-out infinite; }
 @keyframes kmeans-pulse { 50% { opacity: .35; transform: scale(.92); } }
+@media (max-width: 1000px) { .variables-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 850px) { .metric-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 700px) { .slider-row { grid-template-columns: 1fr; } .slider-valor { text-align: left; } .kmeans-info-strip { flex-direction: column; } .kmeans-result-heading { align-items: flex-start; flex-wrap: wrap; } .cluster-number { margin-left: 0; } }
+@media (max-width: 700px) { .slider-row { grid-template-columns: 1fr; } .slider-valor { text-align: left; } .kmeans-info-strip { flex-direction: column; } .kmeans-result-heading { align-items: flex-start; flex-wrap: wrap; } .cluster-number { margin-left: 0; } .variables-grid { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .kmeans-pulse { animation: none; } }
