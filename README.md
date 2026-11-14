@@ -65,3 +65,10 @@ caso8/
 - Los archivos `.joblib` (modelo entrenado) no se suben a git porque pesan mucho. Hay que generarlos corriendo `train_model.py`.
 - El dataset `.csv` tampoco se sube por el mismo motivo. Se genera con `Dataset_10000_Bolivia_Sintetico.py`.
 - Los artefactos de K-Means se generan dentro de `artifacts/` y tampoco se versionan.
+
+## Entrega H4: Notebook de K-Means y perfiles geoclimáticos
+
+- [Notebook reproducible (K=4)](notebooks/H4_Entrega_KMeans_GeoRisk_AI.ipynb): descripción de variables, método del codo, Silhouette, gráficas, perfiles y nombres descriptivos. Si falta el CSV sintético, el notebook lo genera con el script del repositorio.
+- [Informe de K-Means](docs/INFORME_KMEANS_PARA_GITHUB.md): tabla de variables, características de cada cluster, resultados y limitaciones.
+
+Para ejecutar el notebook: instalar dependencias con `python -m pip install -r requirements.txt notebook`, abrir con `python -m notebook` y seleccionar **Run All**. Los cuatro grupos se eligieron para la práctica académica; el criterio Silhouette puede favorecer otro K. Los datos son sintéticos, no alertas reales de deslizamiento.
