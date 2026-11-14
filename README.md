@@ -52,7 +52,7 @@ caso8/
 ├── docs/KMEANS_INTEGRACION.md
 ├── Dataset_10000_Bolivia_Sintetico.py   # Generador del dataset
 ├── Alerta_Deslizamientos_CRISP_DM.ipynb # Notebook con el análisis
-├── Entrega_KMeans_GeoRisk_AI.ipynb       # Entrega ejecutada de clusterización K-Means
+├── H4_Entrega_KMeans_GeoRisk_AI.ipynb    # Entrega H4 ejecutada de clusterización K-Means
 ├── requirements.txt
 ├── frontend/
 │   ├── src/
@@ -71,4 +71,4 @@ caso8/
 - El dataset `.csv` tampoco se sube por el mismo motivo. Se genera con `Dataset_10000_Bolivia_Sintetico.py`.
 - Los artefactos de K-Means se generan dentro de `artifacts/` y tampoco se versionan.
 - El historial del frontend incluye el cluster y el nombre del segmento y puede exportarse a CSV.
-- `Entrega_KMeans_GeoRisk_AI.ipynb` contiene la preparación, selección de `k`, visualizaciones, interpretación y conclusión de la entrega académica.
+- `H4_Entrega_KMeans_GeoRisk_AI.ipynb` contiene la preparación, selección de `k`, visualizaciones, interpretación y conclusión de la entrega académica H4.
