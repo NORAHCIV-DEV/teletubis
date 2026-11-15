@@ -1,6 +1,17 @@
 # Integración K-Means en GeoRisk AI
 
-K-Means complementa al clasificador de deslizamientos: no sustituye su probabilidad. Agrupa observaciones geoclimáticas semejantes y devuelve el perfil asociado en cada evaluación.
+K-Means complementa al clasificador de deslizamientos: no sustituye su probabilidad. Agrupa observaciones geoclimáticas semejantes en cuatro perfiles y devuelve el perfil asociado en cada evaluación.
+
+El proyecto fija `k=4` para la entrega H4 de Data Storytelling y Gestalt. Silhouette y WCSS permiten evaluar la calidad relativa de las alternativas entre 2 y 6 clusters, pero no reemplazan la decisión académica de comunicar cuatro perfiles comparables.
+
+## Nombres descriptivos
+
+- **Saturación por lluvia acumulada:** mayor precipitación en siete días.
+- **Lluvia reciente de alta intensidad:** mayor precipitación en tres días entre los perfiles no extremos.
+- **Valles de menor elevación:** menor elevación media y lluvia moderada.
+- **Altiplano de gran elevación:** mayor elevación media sin precipitación semanal extrema.
+
+Los nombres se recalculan a partir de los promedios de cada entrenamiento. Por ello describen las diferencias observadas y no dependen del número arbitrario asignado al cluster.
 
 ## Arquitectura y variables
 

@@ -3,7 +3,8 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
 import {
-  LayoutDashboard, Activity, History, Settings, LogOut, Map as MapIcon, BrainCircuit
+  LayoutDashboard, Activity, History, Settings, LogOut, Map as MapIcon, BrainCircuit,
+  ArrowRight, Layers3
 } from 'lucide-react';
 import './App.css';
 import MapaZonas from './components/MapaZonas';
@@ -85,6 +86,8 @@ function App() {
         humedad: formData.humedad_pct,
         nivel_riesgo: data.nivel_riesgo,
         porcentaje: data.porcentaje,
+        cluster: data.segmentacion?.cluster ?? null,
+        segmento: data.segmentacion?.segmento ?? 'No disponible',
       };
       setHistorialCompleto(prev => [...prev, registro]);
 
@@ -239,10 +242,6 @@ function App() {
                       {result.acciones.map((a) => (
                         <p key={a} className="action-text">{a}</p>
                       ))}
-                      {result.segmentacion && <div className="segment-result">
-                        <strong>{result.segmentacion.segmento}</strong>
-                        <small>Cluster {result.segmentacion.cluster}: {result.segmentacion.descripcion}</small>
-                      </div>}
                     </div>
                   ) : (
                     <div className="alert-box empty-state">
@@ -250,6 +249,27 @@ function App() {
                     </div>
                   )}
                 </div>
+
+                {result?.segmentacion && (
+                  <section className="glass-card kmeans-result-card" aria-labelledby="kmeans-result-title">
+                    <div className="kmeans-result-heading">
+                      <div className="kmeans-icon" aria-hidden="true"><Layers3 size={22} /></div>
+                      <div>
+                        <span className="cluster-tag">Resultado de K-Means</span>
+                        <h2 id="kmeans-result-title">{result.segmentacion.segmento}</h2>
+                      </div>
+                      <span className="cluster-number">Cluster {result.segmentacion.cluster}</span>
+                    </div>
+                    <p>{result.segmentacion.descripcion}</p>
+                    <div className="kmeans-explanation">
+                      <strong>¿Qué significa?</strong>
+                      <span>Tu evaluación fue agrupada con observaciones que presentan condiciones geoclimáticas similares.</span>
+                    </div>
+                    <button type="button" className="btn-kmeans-detail" onClick={() => setModuloActivo('segmentacion')}>
+                      Ver análisis de clusters <ArrowRight size={16} />
+                    </button>
+                  </section>
+                )}
 
                 <div className="glass-card chart-card">
                   <h2 className="section-title">Tendencia de Evaluaciones</h2>
@@ -296,7 +316,7 @@ function App() {
           <Historial historial={historialCompleto} onLimpiar={limpiarHistorial} />
         )}
 
-        {moduloActivo === 'segmentacion' && <Segmentacion />}
+        {moduloActivo === 'segmentacion' && <Segmentacion segmentoActual={result?.segmentacion} />}
 
         {/* ── CONFIGURACIÓN ── */}
         {moduloActivo === 'config' && (
