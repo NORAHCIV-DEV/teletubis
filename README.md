@@ -70,5 +70,31 @@ caso8/
 - Los archivos `.joblib` (modelo entrenado) no se suben a git porque pesan mucho. Hay que generarlos corriendo `train_model.py`.
 - El dataset `.csv` tampoco se sube por el mismo motivo. Se genera con `Dataset_10000_Bolivia_Sintetico.py`.
 - Los artefactos de K-Means se generan dentro de `artifacts/` y tampoco se versionan.
-- El historial del frontend incluye el cluster y el nombre del segmento y puede exportarse a CSV.
-- `H4_Entrega_KMeans_GeoRisk_AI.ipynb` contiene la preparación, selección de `k`, visualizaciones, interpretación y conclusión de la entrega académica H4.
+
+## Entrega H4: Notebook de K-Means y perfiles geoclimáticos
+
+### Documentación y resultados
+
+- [Notebook reproducible (K=4)](notebooks/H4_Entrega_KMeans_GeoRisk_AI.ipynb): descripción de variables, método del codo, Silhouette, visualizaciones, perfiles y nombres descriptivos de los clusters. Si falta el CSV sintético, el notebook lo genera con el script del repositorio.
+- [Informe de K-Means](docs/INFORME_KMEANS_PARA_GITHUB.md): tabla de variables, características de cada cluster, resultados y limitaciones.
+- El historial del frontend incluye el cluster y el nombre del segmento, y permite exportar los resultados a CSV.
+- El archivo `H4_Entrega_KMeans_GeoRisk_AI.ipynb` contiene la preparación de datos, selección de K, visualizaciones, interpretación y conclusión de la entrega académica H4.
+
+### Cómo ejecutar el notebook
+
+1. Instalar las dependencias:
+
+   `python -m pip install -r requirements.txt notebook`
+
+2. Iniciar Jupyter Notebook:
+
+   `python -m notebook`
+
+3. Abrir `notebooks/H4_Entrega_KMeans_GeoRisk_AI.ipynb`.
+4. Seleccionar **Run All** para ejecutar todas las celdas.
+
+### Interpretación de los resultados
+
+Se utilizan cuatro clusters (K=4) para la práctica académica y la interpretación de perfiles geoclimáticos.
+
+El criterio Silhouette puede favorecer otra cantidad de clusters. Los datos utilizados son sintéticos y los grupos obtenidos no representan alertas reales de deslizamiento.
