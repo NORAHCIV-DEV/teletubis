@@ -98,3 +98,24 @@ caso8/
 Se utilizan cuatro clusters (K=4) para la práctica académica y la interpretación de perfiles geoclimáticos.
 
 El criterio Silhouette puede favorecer otra cantidad de clusters. Los datos utilizados son sintéticos y los grupos obtenidos no representan alertas reales de deslizamiento.
+
+## Reproducir el analisis H4 de K-Means
+
+Requisitos: Python 3.11 y las dependencias del proyecto.
+
+1. Instalar dependencias:
+   python -m pip install -r requirements.txt
+   python -m pip install notebook ipykernel
+
+2. Generar los 10000 registros sinteticos:
+   python Dataset_10000_Bolivia_Sintetico.py
+
+3. Iniciar Jupyter:
+   python -m notebook
+
+4. Abrir notebooks/H4_Entrega_KMeans_GeoRisk_AI.ipynb y seleccionar Run All.
+
+El notebook utiliza K=4 para describir cuatro perfiles geoclimaticos.
+El coeficiente Silhouette puede favorecer K=2.
+Los datos son sinteticos y los clusters no representan alertas reales.
+
