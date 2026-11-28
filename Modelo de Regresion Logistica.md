@@ -2,31 +2,43 @@
 
 ## De qué trata
 
-Usamos regresión logística para clasificar si un terreno tiene riesgo de deslizamiento o no (variable binaria: 0 o 1). La idea es comparar este modelo con el Random Forest que usamos en el sistema final.
+Usamos regresión logística para clasificar si ocurre un deslizamiento (variable binaria: 0 o 1). Sirve como **línea base** para comparar con el Random Forest que usamos en el sistema final.
 
 ## Datos
 
-Trabajamos con el dataset sintético de 10,000 registros que generamos para Bolivia. Tiene variables como precipitación (24h, 3 días, 7 días), pendiente, elevación, humedad, tipo de suelo, departamento y geología.
+El dataset sintético de 10.000 registros de Bolivia. Variables: precipitación (24 h, 3 días, 7 días), pendiente, elevación, humedad, tipo de suelo, departamento y geología.
 
 ## Pasos que seguimos
 
-1. **Carga y exploración**: Revisamos la distribución de las variables con gráficos de barras y boxplots
-2. **Preparación**: Convertimos las variables categóricas con One-Hot Encoding (`pd.get_dummies`). Sacamos las columnas que podían causar data leakage como `score_riesgo_bruto`
-3. **División**: 80% train, 20% test con estratificación
-4. **Entrenamiento**: Usamos `statsmodels` para tener los p-valores y coeficientes, y así ver qué variables son más significativas
-5. **Evaluación**: Calculamos accuracy, recall, precision, F1 y AUC-ROC
+1. **Exploración**: distribuciones y relación de cada variable con el objetivo (sección 5 del notebook).
+2. **Preparación**: One-Hot Encoding con `pd.get_dummies(drop_first=True)`. Se excluyen `id_registro`, `score_riesgo_bruto` e `indice_riesgo_deslizamiento` (data leakage: se usaron para generar el objetivo).
+3. **División**: 80 % entrenamiento y 20 % prueba, estratificada, `random_state=42`.
+4. **Escalado**: `StandardScaler` ajustado solo con el entrenamiento, para que los coeficientes sean comparables.
+5. **Entrenamiento**: `LogisticRegression` de scikit-learn.
+6. **Evaluación**: accuracy, recall, precision, F1 y AUC-ROC. El script `regresion_logistica.py` reproduce todas las cifras.
 
-## Resultados
+## Resultados (conjunto de prueba, 2.000 registros)
 
-- Accuracy en test: ~83%
-- El delta entre train y test fue bajo (~0.002), así que no hay sobreajuste
-- Las variables más importantes fueron `precipitacion_7d_mm` y `pendiente_grados`
+| Métrica | Valor |
+|---|---|
+| Exactitud (accuracy) | 60,2 % |
+| Sensibilidad (recall de *Ocurre*) | 32,8 % |
+| Precisión (de *Ocurre*) | 58,0 % |
+| F1 (de *Ocurre*) | 0,419 |
+| AUC-ROC | 0,609 |
+
+- **Sin sobreajuste:** la exactitud en entrenamiento (58,8 %) es similar a la de prueba (60,2 %).
+- **Variables más importantes** (aumento de las odds por cada aumento de 1 desviación estándar): pendiente +32 % (≈ 15°), lluvia a 7 días +28 % (≈ 216 mm) y humedad +18 % (≈ 20 puntos). La lluvia de 24 h casi no influye (−2 %), y departamento, suelo y geología cambian las odds menos de 6 %.
 
 ## Por qué no usamos este modelo en el sistema
 
-La regresión logística asume relaciones lineales entre las variables. Para nuestro caso, donde la interacción entre lluvia y pendiente es más compleja, el Random Forest captura mejor esos patrones no lineales. Pero este análisis nos sirvió como línea base para comparar.
+La regresión logística asume relaciones lineales entre las variables. Probamos también el Random Forest (con SMOTE, notebook secciones 8 y 9): ambos modelos rinden prácticamente igual (accuracy ≈ 0,58 y F1-macro ≈ 0,57), por lo que la limitación está en la señal de los datos sintéticos y no en el algoritmo. El Random Forest se mantiene como modelo principal del sistema por su mayor flexibilidad, y este análisis es la línea base de comparación.
+
+## Limitaciones
+
+- Cifras de una versión anterior (accuracy ≈ 83 %) no se pudieron reproducir y fueron reemplazadas por las de esta versión.
+- Datos sintéticos: hace falta validar con datos reales.
 
 ## Librerías usadas
-- pandas, numpy, matplotlib, seaborn
-- scikit-learn (train_test_split, métricas)
-- statsmodels (modelo logit con MLE)
+- pandas, numpy
+- scikit-learn (LogisticRegression, StandardScaler, train_test_split, métricas)
