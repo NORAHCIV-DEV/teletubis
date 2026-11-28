@@ -2,9 +2,20 @@
 
 Proyecto de la materia **Ingeniería de Software 2** en UNIFRANZ. Es un sistema web que predice el riesgo de deslizamientos de tierra en Bolivia usando datos climáticos y geológicos.
 
-## Integrantes
-- Clara Machicado
-- Juan [apellido]
+## Equipo y trazabilidad
+
+| Integrante | Usuario GitHub | Rol | Rama / aporte |
+|---|---|---|---|
+| Clara Machicado | Por completar | Administradora | Coordinacion e integracion del proyecto |
+| Juan (apellido por completar) | `@NORAHCIV-DEV` | Colaborador | `feat/flujo-profesional-georisk`: Gini, pruebas y flujo Git |
+
+> Los nombres completos y usuarios pendientes deben ser completados por sus
+> propietarios. Cada integrante debe realizar commits y abrir su Pull Request desde
+> su propia cuenta para conservar la evidencia individual exigida por la materia.
+
+El equipo usa `main` para entregas estables, `develop` para integracion y ramas
+`feat/*` o `fix/*` para cada aporte. Consulta [CONTRIBUTING.md](CONTRIBUTING.md)
+para el flujo completo, validaciones y versionamiento SemVer.
 
 ## Qué hace el sistema
 
@@ -28,7 +39,7 @@ Los cuatro perfiles tienen nombres basados en su rasgo dominante: **Saturación 
 cd caso8
 pip install -r requirements.txt
 python Dataset_10000_Bolivia_Sintetico.py
-python train_model.py      # genera el clasificador y sus artefactos
+python train_model.py      # Random Forest con Gini y genera sus artefactos
 python train_kmeans.py     # genera la segmentación geoclimática
 uvicorn app:app --port 8000
 ```
